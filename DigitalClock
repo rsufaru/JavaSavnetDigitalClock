@@ -1,0 +1,98 @@
+package com.training.helloworld;
+
+import java.util.Arrays;
+
+public class DigitalClock {
+
+  public static void main(String[] args) {
+
+	timeDisplay();
+
+  }
+
+  private static void timeDisplay() {
+	while (true) {
+	  int firstNumberOfHour = (obtainingHour()[0]) / 10;
+	  int secondNumberOfHour = (obtainingHour()[0]) % 10;
+
+	  int firstNumberOfMinute = (obtainingHour()[1]) / 10;
+	  int secondNumberOfMinute = (obtainingHour()[1]) % 10;
+
+	  int firstNumberOfSecond = (obtainingHour()[2]) / 10;
+	  int secondNumberOfSecond = (obtainingHour()[2]) % 10;
+
+	  String[] aboveRowForNumbers = { " _  ", "    ", " _  ", " _  ", "    ", " _  ", " _  ", " _  ", " _  ", " _  " };
+	  String[] firstRowForNumbers = { "| | ", " |  ", " _| ", " _| ", "|_| ", "|_  ", "|_  ", "  | ", "|_| ", "|_| ",
+	      "o ", "o " };
+	  String[] secondRowForNumbers = { "|_| ", " |  ", "|_  ", " _| ", "  | ", " _| ", "|_| ", "  | ", "|_| ", " _| ",
+	      "o ", "o " };
+	  String[] numberForDisplayAboveRow = { "", "", "  ", "", "", "  ", "", "" };
+	  String[] numberForDisplayFirstRow = { "", "", firstRowForNumbers[10], "", "", firstRowForNumbers[11], "", "" };
+	  String[] numberForDisplaySecondRow = { "", "", secondRowForNumbers[10], "", "", secondRowForNumbers[11], "", "" };
+
+	  numberForDisplayAboveRow[0] = aboveRowForNumbers[firstNumberOfHour];
+	  numberForDisplayFirstRow[0] = firstRowForNumbers[firstNumberOfHour];
+	  numberForDisplaySecondRow[0] = secondRowForNumbers[firstNumberOfHour];
+	  numberForDisplayAboveRow[1] = aboveRowForNumbers[secondNumberOfHour];
+	  numberForDisplayFirstRow[1] = firstRowForNumbers[secondNumberOfHour];
+	  numberForDisplaySecondRow[1] = secondRowForNumbers[secondNumberOfHour];
+
+	  numberForDisplayAboveRow[3] = aboveRowForNumbers[firstNumberOfMinute];
+	  numberForDisplayFirstRow[3] = firstRowForNumbers[firstNumberOfMinute];
+	  numberForDisplaySecondRow[3] = secondRowForNumbers[firstNumberOfMinute];
+	  numberForDisplayAboveRow[4] = aboveRowForNumbers[secondNumberOfMinute];
+	  numberForDisplayFirstRow[4] = firstRowForNumbers[secondNumberOfMinute];
+	  numberForDisplaySecondRow[4] = secondRowForNumbers[secondNumberOfMinute];
+
+	  numberForDisplayAboveRow[6] = aboveRowForNumbers[firstNumberOfSecond];
+	  numberForDisplayFirstRow[6] = firstRowForNumbers[firstNumberOfSecond];
+	  numberForDisplaySecondRow[6] = secondRowForNumbers[firstNumberOfSecond];
+	  numberForDisplayAboveRow[7] = aboveRowForNumbers[secondNumberOfSecond];
+	  numberForDisplayFirstRow[7] = firstRowForNumbers[secondNumberOfSecond];
+	  numberForDisplaySecondRow[7] = secondRowForNumbers[secondNumberOfSecond];
+
+	  String numberToBeDisplayed = Arrays.toString(numberForDisplayAboveRow).replaceAll(", |\\[|\\]", "") + "\n"
+	      + Arrays.toString(numberForDisplayFirstRow).replaceAll(", |\\[|\\]", "") + "\n"
+	      + Arrays.toString(numberForDisplaySecondRow).replaceAll(", |\\[|\\]", "") + "\n\n\r";
+
+	  System.out.print(numberToBeDisplayed);
+
+	  try {
+		Thread.sleep(1000);
+	  } catch (InterruptedException e) {
+
+		System.out.println("Problem occured in printing");
+
+	  }
+
+	}
+
+  }
+
+  private static int[] obtainingHour() {
+	int hour = secondsInADay() / 3600;
+	int minute = (secondsInADay() - (3600 * hour)) / 60;
+	int second = secondsInADay() - (int) (secondsInADay() / 60) * 60;
+	hour = timeZone(2);
+	int[] time = { hour, minute, second };
+	return time;
+  }
+
+  private static int timeZone(int i) {
+	int hour = secondsInADay() / 3600;
+	hour += i;
+	if (hour >= 24) {
+	  hour -= 24;
+	}
+	return hour;
+  }
+
+  private static int secondsInADay() {
+	long numberOfSeconds = (System.currentTimeMillis()) / 1000;
+	long numberOfDays = numberOfSeconds / 86400;
+	long secondsPastInADay = numberOfSeconds - (numberOfDays * 86400);
+	int seconds = (int) secondsPastInADay;
+	return seconds;
+  }
+
+}
